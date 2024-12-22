@@ -1,0 +1,400 @@
+:root {
+    --primary-color: #98C5E8;
+    --secondary-color: #EEF5FA;
+    --background-blue: #C1DEF8;
+    --font-color: #484848;
+    --bar-bg-color: #F3F3F3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* Bagian Navbar */
+.navbar-container {
+    width: 100%;
+    padding: 10px 40px;
+    position: fixed;
+    background-color: var(--bar-bg-color);
+    box-shadow: 0 1px 5px #5B5B5B;
+    z-index: 9999;
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-list ul {
+    display: flex;
+    gap: 3rem;
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.nav-list ul li {
+    list-style: none;
+}
+
+.nav-list ul li a:hover {
+    color: #655f5f;
+}
+
+.nav-list ul li a {
+    list-style: none;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-logo {
+    font-family: 'Poppins', sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.nav-icon-list ul {
+    display: flex;
+    gap: 3rem;
+}
+
+.nav-icon-list ul li {
+    list-style: none;
+}
+
+.nav-icon-list i {
+    gap: 2rem;
+    font-size: 2rem;
+    color: black;
+}
+
+/* Tombol Burger */
+.nav-menu-btn {
+    display: none;
+}
+
+.nav-menu-btn i {
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* DropDown */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.dropdown-menu {
+    display: none;
+    position: fixed;
+    width: 25%;
+    left: 65rem;
+    right: 20px;
+    top: 60px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-list {
+    margin: 20px 0;
+    display: flex;
+    transition: background-color 0.3s;
+}
+
+.dropdown-list i {
+    background-color: #7ab0d8;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.dropdown-list:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-menu hr {
+    width: 90%;
+    border: 1px black solid;
+    margin: 8px;
+}
+
+.show {
+    display: block;
+}
+
+.profile-drop {
+    display: flex;
+    padding: 8px 10px;
+    gap: 20px;
+}
+
+.profile-drop img {
+    width: 60px;
+    height: 60px;
+}
+
+.container {
+    display: flex;
+    gap: 2rem;
+    margin: 0 auto;
+    width: 100%;
+    background-color: var(--secondary-color);
+}
+
+/* Left Section */
+.left-section {
+    flex: 0 0 450px;
+    position: sticky;
+    top: 60px;
+    padding: 30px;
+    height: fit-content;
+    background-color: var(--secondary-color);
+}
+
+.title {
+    color: #2d5d86;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.profile-card {
+    background-color: #b3d9ff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 80px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 30px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.username {
+    color: #2d5d86;
+    font-size: 1.1rem;
+}
+
+.progress-bar {
+    background-color: #ffffff;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    background-color: #2d5d86;
+    width: 20%;
+    height: 100%;
+}
+
+.description {
+    color: #2d5d86;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Right Section */
+.right-section {
+    flex: 1;
+    padding: 10px 30px 0 30px;
+    background-color: var(--background-blue);
+}
+
+.voucher-card {
+    width: 90%;
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 80px auto 60px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.discount-image img {
+    width: 100%;
+    height: auto;
+}
+
+.voucher-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.voucher-title {
+    font-size: var(--font-color);
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.terms {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+
+}
+
+.claim-btn {
+    background-color: #b3d9ff;
+    font-size: 1.2rem;
+    color: #2d5d86;
+    border: none;
+    padding: 20px 60px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.claim-btn:hover {
+    background-color: #8fc7ff;
+}
+
+
+
+@media only screen and (max-width: 1260px) {
+    .voucher-description p {
+        font-size: 0.8rem;
+    }
+
+    .claim-btn {
+        padding: 15px 55px;
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (max-width: 968px) {
+    .claim-btn {
+        padding: 10px 40px;
+        font-size: 0.8rem;
+    }
+
+    p.terms {
+        font-size: 0.7rem;
+    }
+
+    .nav-list {
+        position: fixed;
+        top: 0;
+        right: -50%;
+        width: 50%;
+        height: 100vh;
+        background-color: #fff;
+        z-index: 1000;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-list.responsive {
+        right: 0;
+    }
+
+    .nav-list ul {
+        margin-top: 40px;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 3rem;
+        padding-top: 60px;
+        font-size: 1.3rem;
+    }
+
+    .nav-menu-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 10px;
+        right: 20px;
+        z-index: 1100;
+        cursor: pointer;
+    }
+
+    .nav-login-btn {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        margin-top: 60px;
+    }
+
+    .left-section {
+        position: static;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .right-section {
+        width: 100%;
+        max-height: none;
+    }
+
+    .voucher-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .discount-badge {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .claim-btn {
+        position: static;
+        margin-top: 1rem;
+        transform: none;
+        width: 100%;
+    }
+
+    .voucher-description {
+        display: none;
+    }
+}

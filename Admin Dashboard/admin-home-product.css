@@ -1,0 +1,295 @@
+:root {
+    --primary-color: #98C5E8;
+    --secondary-color: #EEF5FA;
+    --background-blue: #C1DEF8;
+    --font-color: #484848;
+    --bar-bg-color: #F3F3F3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: var(--secondary-color);
+    font-family: "Poppins", sans-serif;
+}
+
+.sidebar {
+    width: 300px;
+    background: linear-gradient(to bottom, #98C5E8, #DFF0FC);
+    padding: 20px;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.brand {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+nav {
+    margin-top: 70px;
+}
+
+.nav-item {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 20px 0;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+}
+
+.nav-item img {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 10px;
+}
+
+.nav-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-logout {
+    font-size: 1rem;
+    margin-top: 60px;
+    padding: 12px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background-color: red;
+    transition: all ease-in-out .3s;
+}
+
+.btn-logout a {
+    color: white;
+    text-decoration: none;
+}
+
+.post-product button {
+    background-color: #98C5E8;
+    color: white;
+    margin: 20px 0;
+    padding: 15px;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    transition: 0.2s all ease-in;
+} .post-product button:hover {
+    background-color: #7da4c3;
+}
+
+.main-content {
+    padding: 20px;
+    width: 100%;
+}
+
+.stats {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background-color: var(--background-blue);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 150px;
+}
+
+.stat-icon {
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.stat-icon svg {
+    width: 50px;
+    height: 50px;
+    fill: white;
+}
+
+.stat-card h1 {
+    font-size: 3rem;
+    margin: 0;
+    color: var(--font-color);
+}
+
+.stat-card p {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--font-color);
+}
+
+
+.table-container {
+    background: white;
+    border-radius: 10px;
+    overflow: auto;
+    max-height: 70vh;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: var(--background-blue);
+    padding: 15px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+    background: #f8fbff;
+}
+
+
+.edit-btn {
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+}
+
+.add-btn,
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+}
+
+.add-btn:hover,
+.delete-btn:hover {
+    color: red;
+}
+
+@media (max-width: 1024px) {
+    .brand {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .stat-card {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .nav-item a {
+        display: none;
+    }
+
+    .stats {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        width: 100%;
+    }
+
+    .stat-card h1 {
+        font-size: 1.6rem;
+    }
+
+    .stat-card p {
+        font-size: 0.8rem;
+    }
+
+    .stat-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .stat-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .table-container {
+        max-height: calc(100vh - 300px);
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+
+    nav {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .nav-item {
+        flex-direction: column;
+        align-items: center;
+        width: 25%;
+    }
+
+    .nav-item img {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .btn-logout {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .btn-logout a {
+        display: inline;
+    }
+}
