@@ -1,0 +1,305 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #C5E0F8;
+}
+
+section {
+    min-height: 100vh;
+}
+
+:root {
+    --primary-color: #98C5E8;
+    --secondary-color: #EEF5FA;
+    --background-blue: #C1DEF8;
+    --font-color: #484848;
+    --bar-bg-color: #F3F3F3;
+}
+
+
+/* Bagian Navbar */
+.navbar-container {
+    width: 100%;
+    padding: 10px 40px;
+    position: fixed;
+    background-color: var(--bar-bg-color);
+    box-shadow: 0 1px 5px #5B5B5B;
+    z-index: 9999;
+}
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-list ul {
+    display: flex;
+    gap: 3rem;
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.nav-list ul li {
+    list-style: none;
+}
+
+.nav-list ul li a:hover {
+    color: #655f5f;
+}
+
+.nav-list ul li a {
+    list-style: none;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-logo {
+    font-family: 'Poppins', sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.nav-icon-list ul {
+    display: flex;
+    gap: 3rem;
+}
+
+.nav-icon-list ul li {
+    list-style: none;
+}
+
+.nav-icon-list i {
+    gap: 2rem;
+    font-size: 2rem;
+    color: black;
+}
+
+/* Tombol Burger */
+.nav-menu-btn {
+    display: none;
+}
+
+.nav-menu-btn i {
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* DropDown */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.dropdown-menu {
+    display: none;
+    position: fixed;
+    width: 25%;
+    left: 65rem;
+    right: 20px;
+    top: 60px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-list {
+    margin: 20px 0;
+    display: flex;
+    transition: background-color 0.3s;
+}
+
+.dropdown-list i {
+    background-color: #7ab0d8;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+}
+
+.dropdown-list:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-menu hr {
+    width: 90%;
+    border: 1px black solid;
+    margin: 8px;
+}
+
+.show {
+    display: block;
+}
+
+.profile-drop {
+    display: flex;
+    padding: 8px 10px;
+    gap: 20px;
+}
+
+.profile-drop img {
+    width: 60px;
+    height: 60px;
+}
+
+
+/* Display Product */
+.product-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px 20px 20px; /* Added top padding for navbar */
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 30px;
+}
+
+.product-image {
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+} .brand-image {
+    width: 30px;
+    height: 30px;
+}
+
+.brand-icon {
+    width: 24px;
+    height: 24px;
+    background: #ddd;
+    border-radius: 50%;
+}
+
+.product-name {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.description {
+    color: #666;
+    line-height: 1.6;
+}
+
+.category, .stock {
+    font-weight: bold;
+}
+
+.size-chart {
+    display: flex;
+    gap: 10px;
+}
+
+.size-option {
+    border: 1px solid #ddd;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.size-option.selected {
+    background-color: #87CEEB;
+    color: white;
+    border-color: #87CEEB;
+}
+
+.size-option:hover {
+    border-color: #87CEEB;
+    cursor: pointer;
+}
+
+.stock-input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.price {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.add-to-cart {
+    background: #87CEEB;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.add-to-cart:hover {
+    background: #78b9d4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .product-image {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .product-info {
+        width: 100%;
+    }
+}
