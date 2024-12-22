@@ -413,7 +413,9 @@ $communityPosts = $stmt->get_result();
                                     </div>
                                 </div>
                             </div>
-                            <button class="check-button">Check Your Post</button>
+                            <a href="../Community/community.php">
+                                <button class="check-button">Check Your Post</button>
+                            </a>
                         </div>
                         <?php endwhile; ?>
                         <?php else: ?>
