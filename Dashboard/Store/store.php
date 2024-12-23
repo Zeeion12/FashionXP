@@ -28,16 +28,25 @@ $stmt->bind_param("i", $userId);
 $stmt->execute();
 $products = $stmt->get_result(); // Pastikan ini didefinisikan  
 
-// Modify the form processing logic
+// Check which form was submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['brandProduct'])) {
+        processProductForm();
+    } elseif (isset($_POST['nama_produk'])) {
+        processCommunityForm();
+    }
+}
+
+function processProductForm() {
+    global $db, $userId;
     // Get common form data
-    $brand = $_POST['brandProduct'];
-    $productName = $_POST['productName'];
-    $price = $_POST['productPrice'];
-    $stock = $_POST['productStock'];
-    $category = $_POST['productSize'];
-    $sizeChart = $_POST['sizeChart'];
-    $description = $_POST['productDescription'];
+    $brand = $_POST['brandProduct'] ?? '';
+    $productName = $_POST['productName'] ?? '';
+    $price = $_POST['productPrice'] ?? '';
+    $stock = $_POST['productStock'] ?? '';
+    $category = $_POST['productSize'] ?? '';
+    $sizeChart = $_POST['sizeChart'] ?? '';
+    $description = $_POST['productDescription'] ?? '';
 
     // Handle file upload
     $targetFile = null;
@@ -99,6 +108,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userId
             );
         }
+        if ($stmt->execute()) {
+            header("Location: store.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->error;
+        }
     } else {
         // This is a new product insertion
         $stmt = $db->prepare("INSERT INTO produk (
@@ -113,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             user_id
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssdisssi", 
-            $targetFile, 
+            $targetFile ?: null, 
             $brand, 
             $productName, 
             $price, 
@@ -123,17 +138,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $description, 
             $userId
         );
+        if ($stmt->execute()) {
+            header("Location: store.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+    }
+}
+
+function processCommunityForm() {
+    global $db, $userId;
+    
+    $productName = $_POST['nama_produk'] ?? '';
+    $description = $_POST['deskripsi_produk'] ?? '';
+
+    // Proses upload foto komunitas
+    $targetFile = null;
+    if (!empty($_FILES["foto_produk"]["name"])) {
+        $targetDir = "../../AllProduct/";
+        $targetFile = $targetDir . basename($_FILES["foto_produk"]["name"]);
+        move_uploaded_file($_FILES["foto_produk"]["tmp_name"], $targetFile);
     }
 
-    // Execute the query
+    // Simpan data komunitas ke database
+    $stmt = $db->prepare("INSERT INTO komunitas (foto_produk, nama_produk, deskripsi_produk, user_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $targetFile, $productName, $description, $userId);
+    
     if ($stmt->execute()) {
-        // Redirect to prevent form resubmission
         header("Location: store.php");
         exit();
     } else {
         echo "Error: " . $stmt->error;
     }
 }
+
 // Tambahkan logika untuk menghapus produk
 if (isset($_GET['delete_id'])) {
     $deleteId = $_GET['delete_id'];
@@ -145,26 +184,6 @@ if (isset($_GET['delete_id'])) {
 }
 
 
-// Tambahkan logika untuk menyimpan komunitas baru
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nama_produk'])) {
-    // Hanya proses form komunitas
-    $productName = $_POST['nama_produk'];
-    $description = $_POST['deskripsi_produk'];
-
-    // Proses upload foto komunitas
-    if (!empty($_FILES["foto_produk"]["name"])) {
-        $targetDir = "../../AllProduct/";
-        $targetFile = $targetDir . basename($_FILES["foto_produk"]["name"]);
-        move_uploaded_file($_FILES["foto_produk"]["tmp_name"], $targetFile);
-    } else {
-        $targetFile = null;
-    }
-
-    // Simpan data komunitas ke database
-    $stmt = $db->prepare("INSERT INTO komunitas (foto_produk, nama_produk, deskripsi_produk, user_id) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $targetFile, $productName, $description, $userId);
-    $stmt->execute();
-}
 
 // Tambahkan logka untuk mengedit posting komunitas
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_community_id'])) {
