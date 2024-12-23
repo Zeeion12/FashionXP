@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </header>
 
     <!-- Section Slider -->
-    <section class="slider-wrpr" id="Slider">
+    <div class="slider-wrpr" id="Slider">
         <div class="slider-wrpr2">
             <div class="slider1">
             </div>
@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <input type="radio" name="slider" id="slide4">
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Section Menu -->
     <section class="menu-wraper" id="Menu">
@@ -281,31 +281,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <button id="prev-slide" class="button-slide"><i class='bx bxs-chevron-left'></i></button>
                 <div class="categorys">
                     <div class="category1">
-                        <img src="Home-img/Group1.png" alt="Ctg1" height="235">
+                        <img src="Home-img/Group1.png" alt="Ctg1">
                         <a href="#" class="category-button">
                             <button>Check Out ></button>
                         </a>
                     </div>
                     <div class="category1">
-                        <img src="Home-img/Group2.png" alt="Ctg2" height="235">
+                        <img src="Home-img/Group2.png" alt="Ctg2">
                         <a href="#" class="category-button">
                             <button>Check Out ></button>
                         </a>
                     </div>
                     <div class="category1">
-                        <img src="Home-img/Group3.png" alt="Ctg3" height="235">
+                        <img src="Home-img/Group3.png" alt="Ctg3">
                         <a href="#" class="category-button">
                             <button>Check Out ></button>
                         </a>
                     </div>
                     <div class="category1">
-                        <img src="Home-img/Group4.png" alt="Ctg4" height="235">
+                        <img src="Home-img/Group4.png" alt="Ctg4">
                         <a href="#" class="category-button">
                             <button>Check Out ></button>
                         </a>
                     </div>
                     <div class="category1">
-                        <img src="Home-img/Group5.png" alt="Ctg5" height="235">
+                        <img src="Home-img/Group5.png" alt="Ctg5">
                         <a href="#" class="category-button">
                             <button>Check Out ></button>
                         </a>

@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Navigation functionality
     const navItems = document.querySelectorAll('.nav-item');
     const contentSections = document.querySelectorAll('.content-section');
 
@@ -21,52 +22,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Untuk Update Your Store
+    // Product form handling
     const productForm = document.getElementById('productForm');
-    productForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Mencegah pengiriman default
+    if (productForm) {
+        productForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        const formData = new FormData(productForm);
-        
-        fetch('store.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-            // Tampilkan produk baru di grid
-            document.getElementById('productsContainer').innerHTML += data; // Tambahkan produk baru
-            productForm.reset(); // Reset formulir
+            const formData = new FormData(this);
+            
+            fetch('store.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to refresh the page and show updated data
+                    window.location.href = 'store.php';
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error updating the product. Please try again.');
+            });
+        });
+    }
 
-            // Cek apakah ada produk
-            const emptyState = document.getElementById('emptyState');
-            if (emptyState) {
-                emptyState.style.display = 'none'; // Sembunyikan pesan "Nothing Here"
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
-
-    // Konfirmasi penghapusan produk
+    // Product deletion handling
     const deleteButtons = document.querySelectorAll('.delete-product-btn');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault(); // Mencegah default link
+            e.preventDefault();
             const confirmed = confirm("Are you sure you want to delete this product?");
             if (confirmed) {
-                window.location.href = this.href; // Redirect ke URL penghapusan
+                window.location.href = this.href;
             }
         });
     });
 
-    
-    
-
-    // Konfirmasi pengeditan produk
+    // Product editing handling
     const editButtons = document.querySelectorAll('.edit-product-btn');
     editButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.preventDefault(); // Mencegah default link
+            e.preventDefault();
             const confirmed = confirm("Are you sure you want to edit this product?");
             if (confirmed) {
                 const productId = this.getAttribute('data-id');
@@ -87,97 +86,96 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('sizeChart').value = size;
                 document.getElementById('productDescription').value = description;
 
-                // Set the edit ID in the form
-                const productForm = document.getElementById('productForm');
-                const editIdInput = document.createElement('input');
-                editIdInput.type = 'hidden';
-                editIdInput.name = 'edit_id';
+                // Add or update the edit_id input
+                let editIdInput = document.getElementById('edit_id');
+                if (!editIdInput) {
+                    editIdInput = document.createElement('input');
+                    editIdInput.type = 'hidden';
+                    editIdInput.name = 'edit_id';
+                    editIdInput.id = 'edit_id';
+                    document.getElementById('productForm').appendChild(editIdInput);
+                }
                 editIdInput.value = productId;
-                productForm.appendChild(editIdInput);
 
-                // Show the form
+                // Show the form section
                 document.getElementById('form-brand').style.display = 'block';
+                
+                // Update form title to indicate editing mode
+                const formTitle = document.querySelector('#form-brand h2');
+                if (formTitle) {
+                    formTitle.textContent = 'Edit Product';
+                }
             }
         });
     });
 
-    // Initialize view
-    if (products.length > 0) {
-        showProductGrid();
-        renderProducts();
-    } else {
-        emptyState.style.display = 'block';
-    }
-});
+    // Community post editing handling
+    const communityEditButtons = document.querySelectorAll('.edit-button');
+    communityEditButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const confirmed = confirm("Are you sure you want to edit this community post?");
+            if (confirmed) {
+                const name = this.getAttribute('data-name');
+                const description = this.getAttribute('data-description');
+                const existingPhoto = this.getAttribute('data-photo');
+                
+                // Populate the form with existing data
+                document.getElementById('nama_produk').value = name;
+                document.getElementById('deskripsi_produk').value = description;
+                if (document.getElementById('existing_photo')) {
+                    document.getElementById('existing_photo').value = existingPhoto;
+                }
+                
+                // Change the form title to indicate editing
+                document.getElementById('form-title').innerText = 'Edit Your Community Post';
+                
+                // Show the form
+                document.getElementById('communityForm').style.display = 'block';
+                if (document.getElementById('saveChangesBtn')) {
+                    document.getElementById('saveChangesBtn').style.display = 'inline-block';
+                }
+            }
+        });
+    });
 
-// Add this at the end of your existing JavaScript
-function menuFunction() {
-    const navList = document.getElementById('nav-container-list');
-    navList.classList.toggle('active');
-}
+    // Community post deletion handling
+    const communityDeleteButtons = document.querySelectorAll('.delete-community-btn');
+    communityDeleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const confirmed = confirm("Are you sure you want to delete this community post?");
+            if (confirmed) {
+                window.location.href = this.href;
+            }
+        });
+    });
 
-// Optional: Close menu when clicking outside
-document.addEventListener('click', function(event) {
-    const navList = document.getElementById('nav-container-list');
-    const menuBtn = document.querySelector('.nav-menu-btn');
-    
-    if (!navList.contains(event.target) && !menuBtn.contains(event.target)) {
-        navList.classList.remove('active');
-    }
-});
-
-
-// Add Product
-document.addEventListener('DOMContentLoaded', function () {
+    // Product grid initialization
     const productGrid = document.getElementById('productGrid');
     const emptyState = document.getElementById('emptyState');
 
     if (productGrid && productGrid.children.length > 0) {
         productGrid.style.display = 'block';
-        emptyState.style.display = 'none';
-    } else {
+        if (emptyState) emptyState.style.display = 'none';
+    } else if (productGrid) {
         productGrid.style.display = 'none';
-        emptyState.style.display = 'block';
+        if (emptyState) emptyState.style.display = 'block';
     }
 });
 
+// Mobile menu functionality
+function menuFunction() {
+    const navList = document.getElementById('nav-container-list');
+    navList.classList.toggle('active');
+}
 
-// Konfirmasi pengeditan produk
-const editButtons = document.querySelectorAll('.edit-button');
-editButtons.forEach(button => {
-   button.addEventListener('click', function(e) {
-       e.preventDefault(); // Mencegah default link
-       const confirmed = confirm("Are you sure you want to edit this community post?");
-       if (confirmed) {
-           const name = this.getAttribute('data-name');
-           const description = this.getAttribute('data-description');
-           const existingPhoto = this.getAttribute('data-photo'); // Assuming you have a data attribute for the photo
-           
-           // Populate the form with existing data
-           document.getElementById('nama_produk').value = name;
-           document.getElementById('deskripsi_produk').value = description;
-           document.getElementById('existing_photo').value = existingPhoto; // Set existing photo
-           
-           // Change the form title to indicate editing
-           document.getElementById('form-title').innerText = 'Edit Your Community Post';
-           
-           // Show the form
-           document.getElementById('communityForm').style.display = 'block';
-           document.getElementById('saveChangesBtn').style.display = 'inline-block'; // Tampilkan tombol Save Changes
-       }
-   });
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+    const navList = document.getElementById('nav-container-list');
+    const menuBtn = document.querySelector('.nav-menu-btn');
+    
+    if (navList && menuBtn && !navList.contains(event.target) && !menuBtn.contains(event.target)) {
+        navList.classList.remove('active');
+    }
 });
-
-// Konfirmasi penghapusan komunitas
-const deleteButtons = document.querySelectorAll('.delete-community-btn');
-deleteButtons.forEach(button => {
-   button.addEventListener('click', function(e) {
-       e.preventDefault(); // Mencegah default link
-       const confirmed = confirm("Are you sure you want to delete this community post?");
-       if (confirmed) {
-           window.location.href = this.href; // Redirect ke URL penghapusan
-       }
-   });
-});
-
-

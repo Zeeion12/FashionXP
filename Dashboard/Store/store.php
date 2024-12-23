@@ -28,9 +28,9 @@ $stmt->bind_param("i", $userId);
 $stmt->execute();
 $products = $stmt->get_result(); // Pastikan ini didefinisikan  
 
-// Tambahkan logika untuk menyimpan produk baru
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brandProduct'])) {
-    // Hanya proses form produk
+// Modify the form processing logic
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get common form data
     $brand = $_POST['brandProduct'];
     $productName = $_POST['productName'];
     $price = $_POST['productPrice'];
@@ -39,45 +39,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brandProduct'])) {
     $sizeChart = $_POST['sizeChart'];
     $description = $_POST['productDescription'];
 
-    // Proses upload foto produk
+    // Handle file upload
+    $targetFile = null;
     if (!empty($_FILES["productPhoto"]["name"])) {
         $targetDir = "../../AllProduct/";
         $targetFile = $targetDir . basename($_FILES["productPhoto"]["name"]);
         move_uploaded_file($_FILES["productPhoto"]["tmp_name"], $targetFile);
-    } else {
-        $targetFile = null;
     }
 
-    // Simpan data produk ke database
-    $stmt = $db->prepare("INSERT INTO produk (product_photo, brand, product_name, price, stock, category, size_chart, description, user_id) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssdisssi", $targetFile, $brand, $productName, $price, $stock, $category, $sizeChart, $description, $userId);
-    $stmt->execute();
-}
-// Tambahkan logika untuk mengedit produk
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_id'])) {
-    $editId = $_POST['edit_id'];
-    $brand = $_POST['brandProduct'];
-    $productName = $_POST['productName'];
-    $price = $_POST['productPrice'];
-    $stock = $_POST['productStock'];
-    $category = $_POST['productSize'];
-    $sizeChart = $_POST['sizeChart'];
-    $description = $_POST['productDescription'];
-
-    // Proses upload foto produk jika ada
-    if (!empty($_FILES["productPhoto"]["name"])) {
-        $targetDir = "../../AllProduct/";
-        $targetFile = $targetDir . basename($_FILES["productPhoto"]["name"]);
-        move_uploaded_file($_FILES["productPhoto"]["tmp_name"], $targetFile);
+    // Check if this is an edit operation
+    if (isset($_POST['edit_id']) && !empty($_POST['edit_id'])) {
+        // This is an edit operation
+        $editId = $_POST['edit_id'];
+        
+        // If no new photo was uploaded, keep the existing photo
+        if ($targetFile === null) {
+            $stmt = $db->prepare("UPDATE produk SET 
+                brand = ?, 
+                product_name = ?, 
+                price = ?, 
+                stock = ?, 
+                category = ?, 
+                size_chart = ?, 
+                description = ? 
+                WHERE id = ? AND user_id = ?");
+            $stmt->bind_param("ssdiissii", 
+                $brand, 
+                $productName, 
+                $price, 
+                $stock, 
+                $category, 
+                $sizeChart, 
+                $description, 
+                $editId, 
+                $userId
+            );
+        } else {
+            // If a new photo was uploaded, update the photo as well
+            $stmt = $db->prepare("UPDATE produk SET 
+                product_photo = ?,
+                brand = ?, 
+                product_name = ?, 
+                price = ?, 
+                stock = ?, 
+                category = ?, 
+                size_chart = ?, 
+                description = ? 
+                WHERE id = ? AND user_id = ?");
+            $stmt->bind_param("sssdiissii", 
+                $targetFile,
+                $brand, 
+                $productName, 
+                $price, 
+                $stock, 
+                $category, 
+                $sizeChart, 
+                $description, 
+                $editId, 
+                $userId
+            );
+        }
     } else {
-        $targetFile = $_POST['existing_photo']; // Ambil foto yang sudah ada
+        // This is a new product insertion
+        $stmt = $db->prepare("INSERT INTO produk (
+            product_photo, 
+            brand, 
+            product_name, 
+            price, 
+            stock, 
+            category, 
+            size_chart, 
+            description, 
+            user_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssdisssi", 
+            $targetFile, 
+            $brand, 
+            $productName, 
+            $price, 
+            $stock, 
+            $category, 
+            $sizeChart, 
+            $description, 
+            $userId
+        );
     }
 
-    // Update data produk di database
-    $stmt = $db->prepare("UPDATE produk SET product_photo = ?, brand = ?, product_name = ?, price = ?, stock = ?, category = ?, size_chart = ?, description = ? WHERE id = ? AND user_id = ?");
-    $stmt->bind_param("sssdisssii", $targetFile, $brand, $productName, $price, $stock, $category, $sizeChart, $description, $editId, $userId);
-    $stmt->execute();
+    // Execute the query
+    if ($stmt->execute()) {
+        // Redirect to prevent form resubmission
+        header("Location: store.php");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 }
 // Tambahkan logika untuk menghapus produk
 if (isset($_GET['delete_id'])) {
@@ -435,3 +490,4 @@ $communityPosts = $stmt->get_result();
 </body>
 
 </html>
+
