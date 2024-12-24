@@ -40,13 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function processProductForm() {
     global $db, $userId;
     // Get common form data
-    $brand = $_POST['brandProduct'] ?? '';
-    $productName = $_POST['productName'] ?? '';
-    $price = $_POST['productPrice'] ?? '';
-    $stock = $_POST['productStock'] ?? '';
-    $category = $_POST['productSize'] ?? '';
-    $sizeChart = $_POST['sizeChart'] ?? '';
-    $description = $_POST['productDescription'] ?? '';
+    $brand = $_POST['brandProduct'];
+    $productName = $_POST['productName'];
+    $price = $_POST['productPrice'];
+    $stock = $_POST['productStock'];
+    $category = $_POST['productSize'];
+    $sizeChart = $_POST['sizeChart'];
+    $description = $_POST['productDescription'];
 
     // Handle file upload
     $targetFile = null;
@@ -108,12 +108,6 @@ function processProductForm() {
                 $userId
             );
         }
-        if ($stmt->execute()) {
-            header("Location: store.php");
-            exit();
-        } else {
-            echo "Error: " . $stmt->error;
-        }
     } else {
         // This is a new product insertion
         $stmt = $db->prepare("INSERT INTO produk (
@@ -128,7 +122,7 @@ function processProductForm() {
             user_id
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssdisssi", 
-            $targetFile ?: null, 
+            $targetFile, 
             $brand, 
             $productName, 
             $price, 
@@ -138,20 +132,21 @@ function processProductForm() {
             $description, 
             $userId
         );
-        if ($stmt->execute()) {
-            header("Location: store.php");
-            exit();
-        } else {
-            echo "Error: " . $stmt->error;
-        }
+    }
+
+    if ($stmt->execute()) {
+        header("Location: store.php");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
     }
 }
 
 function processCommunityForm() {
     global $db, $userId;
     
-    $productName = $_POST['nama_produk'] ?? '';
-    $description = $_POST['deskripsi_produk'] ?? '';
+    $productName = $_POST['nama_produk'];
+    $description = $_POST['deskripsi_produk'];
 
     // Proses upload foto komunitas
     $targetFile = null;
@@ -197,8 +192,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_community_id']))
         $targetFile = $targetDir . basename($_FILES["foto_produk"]["name"]);
         move_uploaded_file($_FILES["foto_produk"]["tmp_name"], $targetFile);
     } else {
-        // Hapus bagian ini
-        // $targetFile = $_POST['existing_photo']; // Ambil foto yang sudah ada
         $targetFile = null; // Atau Anda bisa mengatur ke null jika tidak ada foto baru
     }
 
@@ -369,7 +362,7 @@ $communityPosts = $stmt->get_result();
                 <div id="form-brand" class="content-section" style="display: none;">
                     <div class="brand-form-wrapper">
                         <h2>Start Your Own Brand</h2>
-                        <form id="productForm" method="POST" enctype="multipart/form-data">
+                        <form id="productForm" method="POST" enctype="multipart/form-data" action="store.php">
                             <div class="photo-upload">
                                 <div class="upload-box" id="uploadBox"
                                     onclick="document.getElementById('productPhoto').click();">
